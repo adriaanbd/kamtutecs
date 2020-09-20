@@ -8,7 +8,7 @@ const BOX = {
   w: null
 };
 
-function Canvas({ width, height }) {
+const Canvas = ({ width, height }) => {
   const [drag, setDrag] = useState(false);
   const [box, setBox] = useState(BOX);
   const [img, setImage] = useState(null);
@@ -16,7 +16,7 @@ function Canvas({ width, height }) {
   const canvas = useRef(null);
   const ctx = useRef(null);
 
-  function handleDown(e) {
+  const handleDown = (e) => {
     const cv = canvas.current;
     const { top, left } = cv.getBoundingClientRect();
 
@@ -28,7 +28,7 @@ function Canvas({ width, height }) {
     });
   }
 
-  function handleUp() {
+  const handleUp = () => {
     setDrag(false);
   }
 
@@ -51,7 +51,7 @@ function Canvas({ width, height }) {
     }
   };
 
-  function draw() {
+  const draw = () => {
     const rect = [box.x, box.y, box.w, box.h];
     ctx.current.beginPath();
     ctx.current.rect(...rect);
