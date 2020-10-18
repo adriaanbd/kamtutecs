@@ -1,22 +1,30 @@
 import React, { useEffect, useState, useRef } from "react";
 import imgPath from "../static/dog-cat.png";
 
-const BOX = {
-  x: null,
-  y: null,
-  h: null,
-  w: null
-};
+const between = (num, min=5, max=495) => {
+  return min < num && num < max
+}
 
-const Canvas = ({ width, height }) => {
+const inBounds = ({ x, y }) => {
+  const inBound = between(x) && between(y);
+  return inBound;
+}
+
+const getMousePos = (top, left, e) => {
+  return {
+    x: e.clientX - left,
+    y: e.clientY - top
+  }
+}
+
+const Canvas = ({ width, height, box, setBox }) => {
   const [drag, setDrag] = useState(false);
-  const [box, setBox] = useState(BOX);
   const [img, setImage] = useState(null);
 
   const canvas = useRef(null);
   const ctx = useRef(null);
 
-  const handleDown = (e) => {
+  const handleDown = e => {
     const cv = canvas.current;
     const { top, left } = cv.getBoundingClientRect();
 
@@ -27,27 +35,33 @@ const Canvas = ({ width, height }) => {
       y: e.pageY - top
     });
   }
-
+  
   const handleUp = () => {
-    setDrag(false);
-  }
-
-  const handleMove = (e) => {
     if (drag) {
-      const cv = canvas.current;
-      const { top, left } = cv.getBoundingClientRect();
-      const context = cv.getContext("2d");
-
-      setBox({
-        ...box,
-        w: e.pageX - left - box.x,
-        h: e.pageY - top - box.y
-      });
-
-      context.clearRect(0, 0, cv.width, cv.height);
-      context.drawImage(img, 0, 0, cv.width, cv.height);
-
-      draw();
+      setDrag(drag => !drag);
+    }
+  }
+  
+  const handleMove = e => {
+    const cv = canvas.current;
+    const { top, left } = cv.getBoundingClientRect();
+    const mousePos = getMousePos(top, left, e);
+    if (drag) {
+      if (inBounds(mousePos)) {
+        const context = cv.getContext("2d");
+        context.clearRect(0, 0, cv.width, cv.height);
+        context.drawImage(img, 0, 0, cv.width, cv.height);
+        
+        draw();
+        
+        setBox({
+          ...box,
+          w: e.pageX - left - box.x,
+          h: e.pageY - top - box.y
+        });
+      } else {
+        handleUp()
+      }
     }
   };
 
