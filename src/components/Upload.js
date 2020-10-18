@@ -1,10 +1,10 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
+import React from 'react';
+import { Button } from 'reactstrap';
 
 const Upload = () => {
   const handleUpload = () => {
-    console.log("Hello");
-  }
+    //
+  };
   return (
     <div className="input-group mb-3">
       <div className="input-group-prepend">
@@ -12,12 +12,12 @@ const Upload = () => {
       </div>
       <div className="custom-file">
         <input type="file" className="custom-file-input" />
-        <label className="custom-file-label" for="inputGroupFile01">
+        <label className="custom-file-label" htmlFor="inputGroupFile01">
           Choose file
         </label>
       </div>
     </div>
   );
-}
+};
 
 export default Upload;
