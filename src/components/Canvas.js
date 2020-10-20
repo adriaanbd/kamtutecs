@@ -15,13 +15,12 @@ const getMousePos = (top, left, e) => ({
 });
 
 const Canvas = ({
-  width, height, box, setBox,
+  width, height, imgSrc, box, setBox,
 }) => {
   const [drag, setDrag] = useState(false);
   const [img, setImage] = useState(null);
-
-  const canvas = useRef(null);
-  const ctx = useRef(null);
+  const canvas = useRef(null)
+  const ctx = useRef(null)
 
   const draw = () => {
     const rect = [box.x, box.y, box.w, box.h];
@@ -84,7 +83,7 @@ const Canvas = ({
     setImage(image);
 
     image.onload = () => ctx.current.drawImage(image, ...scale);
-    image.src = imgPath;
+    image.src = imgSrc;
   }, [ctx]);
 
   return (

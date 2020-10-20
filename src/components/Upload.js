@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'reactstrap';
 
 const Upload = () => {
-  const handleUpload = () => {
-    //
+  const [file, setFile] = useState(null);
+
+  const handleUpload = e => {
+    const { files } = e.target;
+    setFile(files[0]);
   };
   return (
-    <div className="input-group mb-3">
-      <div className="input-group-prepend">
-        <Button onClick={handleUpload}>Upload</Button>
-      </div>
-      <div className="custom-file">
-        <input type="file" className="custom-file-input" />
-        <label className="custom-file-label" htmlFor="inputGroupFile01">
-          Choose file
-        </label>
-      </div>
+    <div id="upload-box">
+      <input
+        type="file"
+	name="file"
+	accept="image/*"
+	multiple={false}
+	onChange={handleUpload} />
     </div>
   );
 };
