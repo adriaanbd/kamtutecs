@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Container,
   Row,
   Col,
   Button,
 } from 'reactstrap';
-import Upload from './components/Upload';
-import Canvas from './components/Canvas';
+// import Upload from './components/Upload';
+// import Canvas from './components/Canvas';
 import './styles.css';
 import sendRequest from './utils/api';
 
@@ -19,6 +19,39 @@ const BOX = {
 
 function App() {
   const [box, setBox] = useState(BOX);
+  const [file, setFile] = useState(null);
+  const [imgSrc, setImgSrc] = useState(null);
+  const canvas = useRef(null);
+  const ctx = useRef(null);
+
+  useEffect(() => {
+    canvas.current.focus();
+    ctx.current = canvas.current.getContext('2d');
+
+    const cv = canvas.current;
+    const scale = [0, 0, cv.width, cv.height];
+    const image = new Image();
+    console.log('BASE64 ENCODING OF IMAGE =>', imgSrc)
+    image.src = imgSrc;
+    image.onload = () => ctx.current.drawImage(image, ...scale);
+  }, [imgSrc])
+
+  const handleDown = () => {}
+  const handleUp = () => {}
+  const handleMove = () => {}
+
+  const handleUpload = e => {
+    const { files } = e.target;
+    const file = files[0];
+    const reader = new FileReader()
+    if (file) {
+      reader.onload = e => {
+        const src = e.target.result;
+        setImgSrc(src)
+      }
+      reader.readAsDataURL(file)
+    }
+  };
 
   const handleSubmit = async () => {
     try {
@@ -35,13 +68,23 @@ function App() {
     <Container>
       <Row>
         <Col>
-          <Upload />
-          <Canvas
-            height="500"
-            width="500"
-            box={box}
-            setBox={setBox}
-          />
+	  <div id="upload-box">
+	    <input
+	      type="file"
+	      name="file"
+	      accept="image/*"
+	      multiple={false}
+	      onChange={handleUpload} />
+	  </div>
+	  <canvas
+	    id="canvas"
+	    ref={canvas}
+	    width="500"
+	    height="500"
+	    onMouseDown={handleDown}
+	    onMouseUp={handleUp}
+	    onMouseMove={handleMove}
+	  />
           <Button
             variant="primary"
             size="lg"
