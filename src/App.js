@@ -105,7 +105,8 @@ function App() {
     try {
       const img64 = imgSrc.split(',')[1];
       // const res = await sendRequest('get', 'ping');
-      const res = await sendRequest('post', 'textract', { base64: img64 });
+      const data = { base64: img64, bbox: box }
+      const res = await sendRequest('post', 'textract', data);
       console.log('RESPONSE', res);
     } catch (error) {
       const errorData = error.response.data;
