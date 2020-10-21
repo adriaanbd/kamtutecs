@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button } from 'reactstrap';
 
 const Upload = () => {
+  // eslint-disable-next-line no-unused-vars
   const [file, setFile] = useState(null);
 
   const handleUpload = e => {
@@ -12,10 +12,11 @@ const Upload = () => {
     <div id="upload-box">
       <input
         type="file"
-	name="file"
-	accept="image/*"
-	multiple={false}
-	onChange={handleUpload} />
+        name="file"
+        accept="image/*"
+        multiple={false}
+        onChange={handleUpload}
+      />
     </div>
   );
 };
