@@ -1,26 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import imgPath from '../static/dog-cat.png';
-
-const between = (num, min = 5, max = 495) => min < num && num < max;
-
-const inBounds = ({ x, y }) => {
-  const inBound = between(x) && between(y);
-  return inBound;
-};
-
-const getMousePos = (top, left, e) => ({
-  x: e.clientX - left,
-  y: e.clientY - top,
-});
+import { inBounds, getMousePos } from '../utils/canvaHelpers';
 
 const Canvas = ({
   width, height, imgSrc, box, setBox,
 }) => {
   const [drag, setDrag] = useState(false);
   const [img, setImage] = useState(null);
-  const canvas = useRef(null)
-  const ctx = useRef(null)
+  const canvas = useRef(null);
+  const ctx = useRef(null);
 
   const draw = () => {
     const rect = [box.x, box.y, box.w, box.h];
