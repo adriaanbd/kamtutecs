@@ -104,7 +104,6 @@ function App() {
   const handleSubmit = async () => {
     try {
       const img64 = imgSrc.split(',')[1];
-      // const res = await sendRequest('get', 'ping');
       const data = { base64: img64, bbox: box }
       const res = await sendRequest('post', 'textract', data);
       console.log('RESPONSE', res);
@@ -115,16 +114,16 @@ function App() {
   };
 
   return (
-    <Container>
+		<Container className="container-sm" style={{width: '500px'}}>
       <Row>
-        <Col>
+        <Col xs="12">
           <div id="upload-box">
             <input
               type="file"
               name="file"
               accept="image/*"
               multiple={false}
-              onChange={handleUpload}
+							onChange={handleUpload}
             />
           </div>
           <canvas
