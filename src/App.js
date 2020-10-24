@@ -6,6 +6,8 @@ import React, {
 import {
   Container, Row, Col, Button,
 } from 'reactstrap';
+import Header from './components/Header';
+import Upload from './components/Upload';
 import './styles.css';
 import sendRequest from './utils/api';
 import { inBounds, getMousePos } from './utils/canvaHelpers';
@@ -106,6 +108,7 @@ function App() {
       const img64 = imgSrc.split(',')[1];
       const data = { base64: img64, bbox: box }
       const res = await sendRequest('post', 'textract', data);
+			// alert(JSON.stringify(res))
       console.log('RESPONSE', res);
     } catch (error) {
       const errorData = error.response.data;
@@ -114,18 +117,13 @@ function App() {
   };
 
   return (
-		<Container className="container-sm" style={{width: '500px'}}>
+		<Container className="container-sm my-2" style={{width: '500px'}}>
+      <Row>
+        <Header/>
+      </Row>
       <Row>
         <Col xs="12">
-          <div id="upload-box">
-            <input
-              type="file"
-              name="file"
-              accept="image/*"
-              multiple={false}
-							onChange={handleUpload}
-            />
-          </div>
+					<Upload handler={handleUpload}/>
           <canvas
             id="canvas"
             ref={canvas}
@@ -135,7 +133,7 @@ function App() {
             onMouseUp={handleUp}
             onMouseMove={handleMove}
           />
-          <Button variant="primary" block onClick={handleSubmit}>
+					<Button block onClick={handleSubmit} style={{width: "500px"}}>
             Submit
           </Button>
         </Col>
