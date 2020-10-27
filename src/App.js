@@ -7,7 +7,6 @@ import {
   Container, Row, Col, Button,
 } from 'reactstrap';
 import Header from './components/Header';
-import Upload from './components/Upload';
 import './styles.css';
 import sendRequest from './utils/api';
 import { inBounds, getMousePos } from './utils/canvaHelpers';
@@ -123,19 +122,33 @@ function App() {
       </Row>
       <Row>
         <Col xs="12">
-					<Upload handler={handleUpload}/>
-          <canvas
-            id="canvas"
-            ref={canvas}
-            width="500"
-            height="500"
-            onMouseDown={handleDown}
-            onMouseUp={handleUp}
-            onMouseMove={handleMove}
-          />
+					<div className="input-group mb-3">
+						<div className="input-group-prepend">
+							<span className="input-group-text">Upload</span>
+						</div>
+						<div className="custom-file">
+							<input
+								type="file"
+								className="custom-file-input"
+								id="inputGroupFile01"
+								multiple={false}
+								onChange={handleUpload}
+							/>
+							<label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
+						</div>
+					</div>
+					<canvas
+						id="canvas"
+						ref={canvas}
+						width="500"
+						height="500"
+						onMouseDown={handleDown}
+						onMouseUp={handleUp}
+						onMouseMove={handleMove}
+					/>
 					<Button block onClick={handleSubmit} style={{width: "500px"}}>
-            Submit
-          </Button>
+						Submit
+					</Button>
         </Col>
       </Row>
     </Container>
